@@ -1,5 +1,6 @@
 # Tic-Tac-Toe
-A Tic Tac Toe Game that can be played as a multiplayer. Its a Visual JS game that can be played in the browser.
+A Tic Tac Toe Game that can be played as a multiplayer. Its a Visual JS game that can be played in the browser.<br>
+It can be played at https://17rohith29.github.io/Tic-Tac-Toe/
 
 ## Basic Flow of the game
 ### Main Board
