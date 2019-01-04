@@ -2,7 +2,7 @@
 var c = document.getElementById("can");
 var ctx = c.getContext("2d");
 var notice = document.querySelector("#notice");
-
+var over = false;
 var board = [
   [-1, -1, -1],
   [-1, -1, -1],
@@ -90,20 +90,32 @@ function gamecheck() {
 	// checking if any 3 rows has a winner
 	for (let i = 0; i < 3; i++) 
 		if (board[i][0] == board[i][1] && board[i][1] == board[i][2] && board[i][0] != -1)
-			return board[i][0];
+			{	
+				over = true;
+				return board[i][0];
+			}
 
 	// checking if any 3 columns has a winner
 	for (let i = 0; i < 3; i++) 
 		if (board[0][i] == board[1][i] && board[1][i] == board[2][i] && board[0][i] != -1)
-			return board[0][i];
+			{
+				over = true;
+				return board[0][i];
+			}
 
 	// checking main diagonal
 	if (board[0][0] == board[1][1] && board[0][0] == board[2][2] && board[0][0] != -1)
-		return board[0][0];
+			{
+				over = true;
+				return board[0][0];
+			}
 
 	// checking opp diagonal
 	if (board[2][0] == board[1][1] && board[1][1] == board[0][2] && board[1][1] != -1)
-		return board[1][1];
+		{
+			over = true;	
+			return board[1][1];
+		}
 
 	// checking if it is a draw
 	for(let i = 0; i < 3; i++)
@@ -111,31 +123,35 @@ function gamecheck() {
 			if (board[i][j] == -1)
 				return 'oops';
 	
+	over = true;
 	return 'd'
 }
 
 // Getting
 function getPos(event) {
-    let rect = c.getBoundingClientRect();
-    let x = event.clientX - rect.left;
-    let y = event.clientY - rect.top;
-    var valid = getIndex(x, y)
-    if (valid) {
-    	playerTurn = !playerTurn;
-    	let status = gamecheck();
-    	if (status == 'o') {
-			setTimeout(function() {alert("The Player With o Won!!"); }, 500);
-    		notice.innerHTML = "The Player With o Won!!";
-    	}
-    	else if (status == 'x') {
-			setTimeout(function() {alert("The Player With x Won!!"); }, 500);
-    		notice.innerHTML = "The Player With x Won!!";
+	if (!over) {
+		let rect = c.getBoundingClientRect();
+		let x = event.clientX - rect.left;
+		let y = event.clientY - rect.top;
+		var valid = getIndex(x, y);
+		// console.log(over);
+		if (valid) {
+			playerTurn = !playerTurn;
+			let status = gamecheck();
+			if (status == 'o') {
+				setTimeout(function() {alert("The Player With o Won!!"); }, 500);
+				notice.innerHTML = "The Player With o Won!!";
+			}
+			else if (status == 'x') {
+				setTimeout(function() {alert("The Player With x Won!!"); }, 500);
+				notice.innerHTML = "The Player With x Won!!";
+			}
+			else if (status == 'd'){
+				setTimeout(function() {alert("DRAW!!"); }, 500);
+				notice.innerHTML = "DRAW!!";
+			}
 		}
-		else if (status == 'd'){
-			setTimeout(function() {alert("DRAW!!"); }, 500);
-    		notice.innerHTML = "DRAW!!";
-		}
-    }
+	}
 }
 
 function playAgain(event) {
@@ -148,6 +164,7 @@ function playAgain(event) {
   		[-1, -1, -1],
   		[-1, -1, -1]
 	];
- 	playerTurn = true;
+	 playerTurn = true;
+	 over = false;
  	notice.innerHTML = "Game In Progress";
 }
